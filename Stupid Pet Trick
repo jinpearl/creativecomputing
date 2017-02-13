@@ -1,0 +1,60 @@
+int redLEDPin = 12;
+int blueLEDPin = 5;
+int greenLEDPin = 4;
+
+int BUTTON = A1;
+
+int redValue = 0; 
+int greenValue = 0;
+int blueValue = 0;
+
+//http://playground.arduino.cc/Code/HoldButton
+
+int current;         // Current state of the button
+                     // (LOW is pressed b/c i'm using the pullup resistors)
+long millis_held;    // How long the button was held (milliseconds)
+long secs_held;      // How long the button was held (seconds)
+long prev_secs_held; // How long the button was held in the previous check
+byte previous = HIGH;
+unsigned long firstTime; // how long since the button was first pressed 
+
+void setup() {
+
+  Serial.begin(9600);
+
+  pinMode(BUTTON, INPUT);
+  pinMode(redLEDPin, OUTPUT);
+  pinMode(blueLEDPin, OUTPUT);
+  pinMode(greenLEDPin, OUTPUT);
+  digitalWrite(BUTTON, HIGH);
+}
+
+void loop() 
+{
+  current = digitalRead(BUTTON);
+
+  // if the button state changes to pressed, remember the start time 
+  if (current == LOW && previous == HIGH && (millis() - firstTime) > 200) {
+    firstTime = millis();
+  }
+
+  millis_held = (millis() - firstTime);
+  secs_held = millis_held / 1000;
+  
+  //int sensorPin = A0; 
+  //int sensorValue = 0; 
+   if(digitalRead(BUTTON) == HIGH)
+   {
+    digitalWrite(redLEDPin,HIGH);
+   }else
+   {
+   digitalWrite(redLEDPin,HIGH);
+   delay(500);
+   digitalWrite(redLEDPin, LOW);
+   delay(500);
+   }
+   if (secs_held >= 1 && secs_held < 3) {
+        digitalWrite(greenLEDPin,HIGH); 
+      }
+
+}
